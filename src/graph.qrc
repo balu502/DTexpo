@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/Run96.bmp</file>
+        <file>image/usb_32.png</file>
+        <file>image/Analysis.png</file>
+    </qresource>
+</RCC>
