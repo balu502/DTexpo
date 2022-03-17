@@ -75,17 +75,20 @@ TServer_Dt::TServer_Dt(QWidget *parent) : QMainWindow(parent)
   QWidget       *ew      = new QWidget;
   QVBoxLayout   *vLayout = new QVBoxLayout;
   QHBoxLayout   *eLayout = new QHBoxLayout;
+  QPushButton   *oBtn    = new QPushButton("Optic");
   QPushButton   *cBtn    = new QPushButton("Read");
                  wBtn    = new QPushButton("Write");
                  cmbxExs = new QComboBox;
 
   wBtn->setEnabled(false);
   cBtn->setEnabled(false);
+  cBtn->setEnabled(false);
   cBtn->setToolTip(tr("Read Expo from Device"));
 
-  eLayout->addWidget( cmbxExs,  80 );
+  eLayout->addWidget( cmbxExs,  70 );
   eLayout->addWidget( wBtn,     10 );
   eLayout->addWidget( cBtn,     10 );
+  eLayout->addWidget( oBtn,     10 );
 
   ew->setLayout( eLayout );
 
@@ -114,6 +117,7 @@ TServer_Dt::TServer_Dt(QWidget *parent) : QMainWindow(parent)
 
   connect(wBtn, SIGNAL(clicked(bool)), this, SLOT(inputNewExpo()));
   connect(cBtn, SIGNAL(clicked(bool)), this, SLOT(showCurrentExpo()));
+  connect(oBtn, SIGNAL(clicked(bool)), this, SLOT(readCurrentSpectral()));
   connect( &m_WebCtrl, SIGNAL(finished(QNetworkReply*))
                         , this, SLOT(httpTicketDownloaded(QNetworkReply*)));
 
@@ -139,6 +143,7 @@ TServer_Dt::TServer_Dt(QWidget *parent) : QMainWindow(parent)
   connect(pageNWD,SIGNAL(pauseChange(bool)),pageSetup,SLOT(setCbLogNWS(bool)));
 
   connect(device, SIGNAL(onDeviceInfoAvailable(bool)), cBtn, SLOT(setEnabled(bool)));
+  connect(device, SIGNAL(onDeviceInfoAvailable(bool)), oBtn, SLOT(setEnabled(bool)));
   connect(device, SIGNAL(onDeviceInfoAvailable(bool)), this, SLOT(onDeviceConnectionChanged(bool)));
   connect(device, SIGNAL(onDeviceListAvailable()), this, SLOT(onDeviceListChanged()));
 
@@ -328,6 +333,7 @@ QStringList TServer_Dt::getCurrentExpo(){
     return  processReadSector(text);
 }
 
+
 void TServer_Dt::showCurrentExpo(){
 
     QStringList currEx = getCurrentExpo();
@@ -337,6 +343,17 @@ void TServer_Dt::showCurrentExpo(){
             .arg( currEx.isEmpty()
                     ? "unavailable" : currEx.join("; ") ) );
 }
+
+
+void TServer_Dt::readCurrentSpectral(){
+
+    QMessageBox::information(this, this->windowTitle(),
+        QString("Spectral read \n'%1' ")
+            .arg(device->infoDevice( INFODEV_SpectralCoeff )));
+
+    return;
+}
+
 
 void TServer_Dt::inputNewExpo(){
 

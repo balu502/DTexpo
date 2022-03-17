@@ -141,6 +141,8 @@ public:
   QStringList availableDevices() const { return devsAvailable; }
   void selectDevice(QString);
 
+  QString infoDevice(QString) const;
+
 public slots:
   void timeAlarm(void);
 

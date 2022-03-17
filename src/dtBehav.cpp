@@ -1980,6 +1980,12 @@ void TDtBehav::selectDevice(QString dName){
     }
 }
 
+QString TDtBehav::infoDevice(QString k) const{
+
+    return map_InfoDevice.contains(k)
+            ? map_InfoDevice[k] : "";
+}
+
 //-----------------------------------------------------------------------------
 //--- Test device before start RUN STARTCHECKING_STATE
 //-----------------------------------------------------------------------------

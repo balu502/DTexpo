@@ -49,6 +49,8 @@ private slots:
   void inputNewExpo();
   void setDeviceExpo(  QStringList );
   void showCurrentExpo();
+  void readCurrentSpectral();
+
   void onDeviceConnectionChanged(bool);
   void onDeviceListChanged();
 
